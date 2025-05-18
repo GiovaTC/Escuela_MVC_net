@@ -40,6 +40,32 @@ namespace EscuelaMVC.DAO
             return lista;
         }
 
-        // Métodos Insertar, Actualizar, Eliminar también usan connectionString...
+        public Estudiante ObtenerPorId(int id)
+        {
+            Estudiante estudiante = null;
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                string sql = "SELECT * FROM estudiantes WHERE id = @id";
+                using (var cmd =  new MySqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    using( var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            estudiante = new Estudiante
+                            {
+                                Id = reader.GetInt32("id"),
+                                Nombre = reader.GetString("nombre"),
+                                Edad = reader.GetInt32("edad"),
+                                IdCurso = reader.GetInt32("id_curso")
+                            };
+                        }
+                    }
+                }
+            }
+            return estudiante;
+        }
     }
 }
