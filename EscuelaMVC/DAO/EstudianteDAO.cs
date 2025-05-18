@@ -101,5 +101,18 @@ namespace EscuelaMVC.DAO
             }
         }
 
+        public void Eliminar(int id)
+        {
+            using ( var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                string sql = "DELETE FROM estudiante WHERE id = @id";
+                using (var cmd = new MySqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
