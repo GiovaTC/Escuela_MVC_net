@@ -106,7 +106,7 @@ namespace EscuelaMVC.DAO
             using ( var conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
-                string sql = "DELETE FROM estudiante WHERE id = @id";
+                string sql = "DELETE FROM estudiantes WHERE id = @id";
                 using (var cmd = new MySqlCommand(sql, conn))
                 {
                     cmd.Parameters.AddWithValue("@id", id);
