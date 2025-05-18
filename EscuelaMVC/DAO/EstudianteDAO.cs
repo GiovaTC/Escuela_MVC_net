@@ -67,5 +67,22 @@ namespace EscuelaMVC.DAO
             }
             return estudiante;
         }
+
+        public void Insertar(Estudiante estudiante)
+        {
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                string sql = "INSERT INTO estudiantes (nombre, edad, id_curso) VALUES (@nombre, @edad, @id_curso)";
+                using ( var cmd = new MySqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", estudiante.Nombre);
+                    cmd.Parameters.AddWithValue("@edad", estudiante.Edad);
+                    cmd.Parameters.AddWithValue("@id_curso", estudiante.IdCurso);
+                    cmd.ExecuteNonQuery();  
+                }
+            }
+        }
+
     }
 }
