@@ -84,5 +84,22 @@ namespace EscuelaMVC.DAO
             }
         }
 
+        public void Actualizar(Estudiante estudiante)
+        {
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                string sql = "UPDATE estudiantes SET nombre = @nombre, edad = @edad, id_curso = @id_curso WHERE id = @id";
+                using (var cmd = new MySqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", estudiante.Nombre);
+                    cmd.Parameters.AddWithValue("@edad", estudiante.Edad);
+                    cmd.Parameters.AddWithValue("@id_curso", estudiante.IdCurso);
+                    cmd.Parameters.AddWithValue("@id", estudiante.Id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
     }
 }
