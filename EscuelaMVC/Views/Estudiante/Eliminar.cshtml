@@ -1,0 +1,20 @@
+﻿@model EscuelaMVC.Models.Estudiante
+
+@{
+    ViewData["Title"] = "Eliminar Estudiante";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<h4>¿Estás seguro de eliminar este estudiante?</h4>
+<div>
+    <p><strong>Nombre:</strong> @Model.Nombre</p>
+    <p><strong>Edad:</strong> @Model.Edad</p>
+    <p><strong>ID Curso:</strong> @Model.IdCurso</p>
+</div>
+
+<form asp-action="ConfirmarEliminar">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
