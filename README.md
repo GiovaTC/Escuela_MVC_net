@@ -117,8 +117,8 @@ Ubicación: Models/EstudianteDAO.cs
 
 csharp
 
-using MySql.Data.MySqlClient;
 using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 
 namespace EscuelaMVC.Models
@@ -157,9 +157,83 @@ namespace EscuelaMVC.Models
             return lista;
         }
 
-        // Métodos Insertar, Actualizar, Eliminar también usan connectionString...
+        public Estudiante ObtenerPorId(int id)
+        {
+            Estudiante estudiante = null;
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                string sql = "SELECT * FROM estudiantes WHERE id = @id";
+                using (var cmd = new MySqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            estudiante = new Estudiante
+                            {
+                                Id = reader.GetInt32("id"),
+                                Nombre = reader.GetString("nombre"),
+                                Edad = reader.GetInt32("edad"),
+                                IdCurso = reader.GetInt32("id_curso")
+                            };
+                        }
+                    }
+                }
+            }
+            return estudiante;
+        }
+
+        public void Insertar(Estudiante estudiante)
+        {
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                string sql = "INSERT INTO estudiantes (nombre, edad, id_curso) VALUES (@nombre, @edad, @id_curso)";
+                using (var cmd = new MySqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", estudiante.Nombre);
+                    cmd.Parameters.AddWithValue("@edad", estudiante.Edad);
+                    cmd.Parameters.AddWithValue("@id_curso", estudiante.IdCurso);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void Actualizar(Estudiante estudiante)
+        {
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                string sql = "UPDATE estudiantes SET nombre = @nombre, edad = @edad, id_curso = @id_curso WHERE id = @id";
+                using (var cmd = new MySqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", estudiante.Nombre);
+                    cmd.Parameters.AddWithValue("@edad", estudiante.Edad);
+                    cmd.Parameters.AddWithValue("@id_curso", estudiante.IdCurso);
+                    cmd.Parameters.AddWithValue("@id", estudiante.Id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void Eliminar(int id)
+        {
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                string sql = "DELETE FROM estudiantes WHERE id = @id";
+                using (var cmd = new MySqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
+
 
 🧷 Inyectar EstudianteDAO en el controlador
 csharp
