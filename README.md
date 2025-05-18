@@ -1,5 +1,7 @@
 # Escuela_MVC_net
 
+![image](https://github.com/user-attachments/assets/f61a2ba7-c3c2-4d05-aaa4-aac3992472e6)
+
 # 🧩 Estructura del proyecto (ASP.NET MVC)
 
 Puedes crear un nuevo proyecto en Visual Studio 2022 como:
